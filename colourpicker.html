@@ -1,0 +1,54 @@
+<!doctype html>
+
+<html lang="en">
+	<head>
+		<title>Colour Picker</title>
+		<link rel="stylesheet" href="css/style.css">
+		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+		<script>
+			$(document).ready(function() {
+				$('body').css('background-color')
+			
+				$('#hexCode').val('#ffffff');
+				$('#red, #green, #blue').val(255);
+			
+				$('input[type=range]').change(function() {
+					var red = parseInt($('#red').val()).toString(16);
+					var green = parseInt($('#green').val()).toString(16);
+					var blue = parseInt($('#blue').val()).toString(16);
+					
+					if (red.length === 1) { red = "0" + red; }
+					if (green.length === 1) { green = "0" + green; }
+					if (blue.length === 1) { blue = "0" + blue; }
+					
+					var hex = '#' + red + green + blue;
+					
+					$('body').css('background-color', hex);
+					$('#hexCode').val(hex);
+				});
+			});
+		</script>
+	</head>
+	<body>
+		<div id="container">
+			<div id="main">
+				<div class="setting">
+					<label for="hexCode">hex</label>
+					<input type="text" id="hexCode" maxlength="6" size="6" />
+				</div>
+				<div class="setting">
+					<label for="red">r</label>
+					<input type="range" id="red" min="0" max="255" />
+				</div>
+				<div class="setting">
+					<label for="green">g</label>
+					<input type="range" id="green" min="0" max="255" />
+				</div>
+				<div class="setting">
+					<label for="blue">b</label>
+					<input type="range" id="blue" min="0" max="255" />
+				</div>
+			</div>
+		</div>
+	</body>
+</html>

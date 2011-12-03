@@ -1,0 +1,31 @@
+body {
+	background-color: #ffffff;
+	color: #000000;
+	margin-left: 20px;
+	margin-top: 20px;
+	font-family: Trebuchet MS;
+	font-size: 0.8em;
+}
+
+label {
+	display: block;
+	float: left;
+	width: 30px;
+	text-align: right;
+	padding-right: 10px;
+}
+
+#container {
+	width: 215px;
+	opacity: 0.8;
+	box-shadow: 3px 3px 4px #AAAAAA;
+}
+
+div#main {
+	background-color: #ffffff;
+	border: 1px solid #000000;
+}
+
+div.setting {
+	margin: 10px;
+}
