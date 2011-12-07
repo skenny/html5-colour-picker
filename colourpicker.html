@@ -6,38 +6,7 @@
 		<link rel="stylesheet" href="style.css">
 		<script src="knockout-1.2.1.js"></script>
 		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
-		<script>
-			$(document).ready(function() {
-			    var viewModel = {
-			        red: ko.observable(128),
-			        green: ko.observable(128),
-			        blue: ko.observable(128)
-			    };
-			    viewModel.hex = ko.dependentObservable(function() {
-			        return toHex(this.red(), this.green(), this.blue());
-		        }, viewModel);
-		        viewModel.rgb = ko.dependentObservable(function() {
-		            return 'rgb(' + this.red() + ',' + this.green() + ',' + this.blue() + ')';
-		        }, viewModel);
-		        
-			    ko.applyBindings(viewModel);
-			    
-			    // auto-select text
-                $('input[type=text]').click(function() { this.select(); });
-			    
-				function toHex(red, green, blue) {
-					var redHex = parseInt(red).toString(16).toUpperCase();
-					var greenHex = parseInt(green).toString(16).toUpperCase();
-					var blueHex = parseInt(blue).toString(16).toUpperCase();
-
-					if (redHex.length === 1) { redHex = "0" + redHex; }
-					if (greenHex.length === 1) { greenHex = "0" + greenHex; }
-					if (blueHex.length === 1) { blueHex = "0" + blueHex; }
-					
-					return '#' + redHex + greenHex + blueHex;
-				}
-			});
-		</script>
+		<script src="script.js"></script>
 	</head>
 	<body data-bind="style: { backgroundColor: rgb() }">
 		<div id="container">
