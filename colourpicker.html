@@ -3,50 +3,63 @@
 <html lang="en">
 	<head>
 		<title>Colour Picker</title>
-		<link rel="stylesheet" href="css/style.css">
+		<link rel="stylesheet" href="style.css">
+		<script src="knockout-1.2.1.js"></script>
 		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
 		<script>
 			$(document).ready(function() {
-				$('body').css('background-color')
-			
-				$('#hexCode').val('#ffffff');
-				$('#red, #green, #blue').val(255);
-			
-				$('input[type=range]').change(function() {
-					var red = parseInt($('#red').val()).toString(16);
-					var green = parseInt($('#green').val()).toString(16);
-					var blue = parseInt($('#blue').val()).toString(16);
+			    var viewModel = {
+			        red: ko.observable(128),
+			        green: ko.observable(128),
+			        blue: ko.observable(128)
+			    };
+			    viewModel.hex = ko.dependentObservable(function() {
+			        return toHex(this.red(), this.green(), this.blue());
+		        }, viewModel);
+		        viewModel.rgb = ko.dependentObservable(function() {
+		            return 'rgb(' + this.red() + ',' + this.green() + ',' + this.blue() + ')';
+		        }, viewModel);
+		        
+			    ko.applyBindings(viewModel);
+			    
+			    // auto-select text
+                $('input[type=text]').click(function() { this.select(); });
+			    
+				function toHex(red, green, blue) {
+					var redHex = parseInt(red).toString(16).toUpperCase();
+					var greenHex = parseInt(green).toString(16).toUpperCase();
+					var blueHex = parseInt(blue).toString(16).toUpperCase();
+
+					if (redHex.length === 1) { redHex = "0" + redHex; }
+					if (greenHex.length === 1) { greenHex = "0" + greenHex; }
+					if (blueHex.length === 1) { blueHex = "0" + blueHex; }
 					
-					if (red.length === 1) { red = "0" + red; }
-					if (green.length === 1) { green = "0" + green; }
-					if (blue.length === 1) { blue = "0" + blue; }
-					
-					var hex = '#' + red + green + blue;
-					
-					$('body').css('background-color', hex);
-					$('#hexCode').val(hex);
-				});
+					return '#' + redHex + greenHex + blueHex;
+				}
 			});
 		</script>
 	</head>
-	<body>
+	<body data-bind="style: { backgroundColor: rgb() }">
 		<div id="container">
 			<div id="main">
 				<div class="setting">
 					<label for="hexCode">hex</label>
-					<input type="text" id="hexCode" maxlength="6" size="6" />
+					<input type="text" id="hexCode" maxlength="7" size="6" data-bind="value: hex" />
 				</div>
 				<div class="setting">
 					<label for="red">r</label>
-					<input type="range" id="red" min="0" max="255" />
+					<input type="range" min="0" max="255" data-bind="value: red" />
+					<input type="text" id="red" size="2" maxlength="3" data-bind="value: red, valueUpdate: 'afterkeydown'" />
 				</div>
 				<div class="setting">
 					<label for="green">g</label>
-					<input type="range" id="green" min="0" max="255" />
+					<input type="range" min="0" max="255" data-bind="value: green" />
+					<input type="text" id="green" size="2" maxlength="3" data-bind="value: green, valueUpdate: 'afterkeydown'" />
 				</div>
 				<div class="setting">
 					<label for="blue">b</label>
-					<input type="range" id="blue" min="0" max="255" />
+					<input type="range" min="0" max="255" data-bind="value: blue" />
+					<input type="text" id="blue" size="2" maxlength="3" data-bind="value: blue, valueUpdate: 'afterkeydown'" />
 				</div>
 			</div>
 		</div>
