@@ -1,4 +1,8 @@
 $(document).ready(function() {
+	var mouseIsDown = false;
+	var mouseDownX = 0;
+	var mouseDownY = 0;
+
     var viewModel = {
         red: ko.observable(128),
         green: ko.observable(128),
@@ -23,10 +27,30 @@ $(document).ready(function() {
     }, viewModel);
     
     ko.applyBindings(viewModel);
-    
+
+	autoSizeCanvas();
+	
+	$(window).bind("resize", function() { autoSizeCanvas(window); });
+    $('#canvas').mousedown(function(e) { mouseDown(e); });
+	$('#canvas').mouseup(function(e) { mouseUp(e); });
+	$('#canvas').mousemove(function(e) { mouseMove(e); });
+		
     // auto-select text
     $('input[type=text]').click(function() { this.select(); });
-    
+	
+	// enable fullscreen canvas (latest chrome, ff only)
+	if (typeof webkitRequestFullScreen == 'function') {
+		$('#canvas')[0].webkitRequestFullScreen(Element.ALLOW_KEYBOARD_INPUT); // chrome
+	}	
+	if (typeof mozRequestFullScreen == 'function') {
+		$('#canvas')[0].mozRequestFullScreen(); // ff
+	}
+
+	function autoSizeCanvas() {
+		$("#canvas").css("width", $(window).width() + "px");
+		$("#canvas").css("height", ($(window).height() - $('#toolbar').height()) + "px"); 
+	}
+	
 	function toHex(red, green, blue) {
 		var redHex = parseInt(red).toString(16).toUpperCase();
 		var greenHex = parseInt(green).toString(16).toUpperCase();
@@ -50,5 +74,34 @@ $(document).ready(function() {
             parseInt(hex.substring(4, 6), 16)
 	    ];
 	}
+	
+	function mouseDown(e) {
+		if (e.button == 0) {	// left
+			mouseIsDown = true;
+			mouseDownX = e.pageX;
+			mouseDownY = e.pageY;
+		}
+	}
+	
+	function mouseUp(e) {
+		if (e.button == 0) {	// left
+			mouseIsDown = false;
+			
+			$('#canvas').drawRect({
+			  fillStyle: viewModel.hex(),
+			  x: mouseDownX, 
+			  y: mouseDownY,
+			  width: e.pageX - mouseDownX,
+			  height: e.pageY - mouseDownY
+			});
+		}
+	}
+	
+	function mouseMove(e) {
+		if (!mouseIsDown) { return; }
+		var x = e.pageX;
+		var y = e.pageY;
+	}
+
 });
 

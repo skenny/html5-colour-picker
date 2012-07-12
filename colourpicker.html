@@ -5,30 +5,32 @@
 		<title>Colour Picker</title>
 		<link rel="stylesheet" href="style.css">
 		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+		<script src="jcanvas.min.js"></script>
 		<script src="knockout-1.2.1.js"></script>
 		<script src="script.js"></script>
 	</head>
 	<body data-bind="style: { backgroundColor: rgb() }">
-		<div id="main">
+		<div id="toolbar">
 			<div class="setting">
 				<label for="hexCode">hex</label>
-				<input type="text" id="hexCode" maxlength="7" size="6" data-bind="value: hex" />
+				<input type="text" class="hexCode" id="hexCode" maxlength="7" data-bind="value: hex" />
 			</div>
 			<div class="setting">
 				<label for="red">r</label>
 				<input type="range" min="0" max="255" data-bind="value: red" />
-				<input type="text" id="red" size="2" maxlength="3" data-bind="value: red, valueUpdate: 'afterkeydown'" />
+				<input type="text" class="hexValue" id="red" maxlength="3" data-bind="value: red, valueUpdate: 'afterkeydown'" />
 			</div>
 			<div class="setting">
 				<label for="green">g</label>
 				<input type="range" min="0" max="255" data-bind="value: green" />
-				<input type="text" id="green" size="2" maxlength="3" data-bind="value: green, valueUpdate: 'afterkeydown'" />
+				<input type="text" class="hexValue" id="green" maxlength="3" data-bind="value: green, valueUpdate: 'afterkeydown'" />
 			</div>
 			<div class="setting">
 				<label for="blue">b</label>
 				<input type="range" min="0" max="255" data-bind="value: blue" />
-				<input type="text" id="blue" size="2" maxlength="3" data-bind="value: blue, valueUpdate: 'afterkeydown'" />
+				<input type="text" class="hexValue" id="blue" maxlength="3" data-bind="value: blue, valueUpdate: 'afterkeydown'" />
 			</div>
 		</div>
+		<canvas id="canvas" />
 	</body>
 </html>
